@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>晨曦 Studio | 精致网页展示</title>
+  <style>
+    :root {
+      --bg: #0c1022;
+      --card: rgba(255, 255, 255, 0.12);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text: #f7f7fb;
+      --muted: #c9cee8;
+      --primary: #8b5cf6;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.38), transparent 30%),
+        radial-gradient(circle at 85% 8%, rgba(6, 182, 212, 0.32), transparent 28%),
+        linear-gradient(135deg, #0c1022 0%, #141832 52%, #0d2532 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 999px;
+      filter: blur(18px);
+      opacity: 0.42;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      left: -120px;
+      bottom: 6%;
+      background: linear-gradient(135deg, var(--primary), transparent);
+    }
+
+    body::after {
+      right: -140px;
+      top: 30%;
+      background: linear-gradient(135deg, var(--secondary), transparent);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 14px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 44px;
+      padding: 86px 0 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      color: #e7e9ff;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.92rem;
+    }
+
+    .eyebrow span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 22px var(--accent);
+    }
+
+    h1 {
+      max-width: 680px;
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.08em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #bfefff 45%, #d8c1ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 16px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 18px 42px rgba(6, 182, 212, 0.28);
+    }
+
+    .button.ghost {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .visual-card {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid var(--card-border);
+      border-radius: 36px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 28px;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.04));
+      box-shadow: inset -18px -22px 60px rgba(139, 92, 246, 0.3), 0 28px 90px rgba(0, 0, 0, 0.25);
+    }
+
+    .orb.large {
+      width: 230px;
+      height: 230px;
+      left: 50%;
+      top: 34%;
+      transform: translate(-50%, -50%);
+    }
+
+    .orb.small {
+      width: 86px;
+      height: 86px;
+      right: 44px;
+      bottom: 104px;
+      background: linear-gradient(135deg, var(--accent), rgba(245, 158, 11, 0.1));
+    }
+
+    .floating-panel {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      bottom: 34px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      background: rgba(9, 13, 30, 0.62);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .progress {
+      height: 10px;
+      margin: 14px 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .progress div {
+      width: 78%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .metric,
+    .feature {
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.16);
+    }
+
+    .metric {
+      padding: 22px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .section-title {
+      margin: 28px 0 20px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      letter-spacing: -0.04em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      padding: 26px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 1.45rem;
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+      font-size: 1.18rem;
+    }
+
+    .feature p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    footer {
+      margin-top: 34px;
+      padding: 24px 0 0;
+      color: rgba(255, 255, 255, 0.62);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 58px;
+      }
+
+      .visual-card {
+        min-height: 420px;
+      }
+
+      .features,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav {
+        align-items: flex-start;
+        border-radius: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        gap: 32px;
+      }
+
+      .visual-card {
+        min-height: 360px;
+        border-radius: 28px;
+      }
+
+      .orb.large {
+        width: 180px;
+        height: 180px;
+      }
+
+      .floating-panel {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav" aria-label="主导航">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">✦</div>
+        <span>晨曦 Studio</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features">亮点</a></li>
+        <li><a href="#work">作品</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span></span>为现代品牌打造高级视觉体验</div>
+        <h1><span class="gradient-text">让你的网页</span><br />一眼就很惊艳</h1>
+        <p>
+          这是一份开箱即用的响应式单页 HTML 示例，融合玻璃拟态、渐变光影、卡片布局与流畅交互，适合个人主页、产品展示或创意工作室官网。
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#contact">开始合作 →</a>
+          <a class="button ghost" href="#features">查看亮点</a>
+        </div>
+
+        <div class="metrics" id="work" aria-label="项目数据">
+          <div class="metric">
+            <strong>98%</strong>
+            <span>视觉满意度</span>
+          </div>
+          <div class="metric">
+            <strong>24h</strong>
+            <span>快速上线</span>
+          </div>
+          <div class="metric">
+            <strong>3+</strong>
+            <span>适配终端</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="visual-card" aria-label="视觉展示卡片">
+        <div class="orb large"></div>
+        <div class="orb small"></div>
+        <div class="floating-panel">
+          <div class="panel-header">
+            <span>设计完成度</span>
+            <strong>78%</strong>
+          </div>
+          <div class="progress" aria-hidden="true"><div></div></div>
+          <p>色彩、排版、动效与响应式布局已整合，帮助页面在不同屏幕上保持精致观感。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-title">
+      <h2 class="section-title" id="features-title">页面亮点</h2>
+      <div class="features">
+        <article class="feature">
+          <div class="icon" aria-hidden="true">🎨</div>
+          <h3>高级配色</h3>
+          <p>深色背景搭配紫蓝渐变与暖色点缀，营造科技感与高级感并存的视觉氛围。</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">✨</div>
+          <h3>玻璃拟态</h3>
+          <p>半透明卡片、模糊背景和柔和阴影让内容层次更清晰，整体更加现代。</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">📱</div>
+          <h3>响应式布局</h3>
+          <p>自动适配桌面、平板与手机屏幕，移动端同样拥有舒适的阅读体验。</p>
+        </article>
+      </div>
+    </section>
+
+    <footer id="contact">
+      © 2026 晨曦 Studio · 用简洁优雅的代码呈现美好创意
+    </footer>
+  </main>
+</body>
+</html>
